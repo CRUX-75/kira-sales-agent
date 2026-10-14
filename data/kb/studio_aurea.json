@@ -1,0 +1,61 @@
+{
+  "meta": {
+    "business": "Studio Aurea",
+    "fictional": true,
+    "note": "Fictional business. All content was written from scratch for this repository.",
+    "language": "de",
+    "version": "0.1.0"
+  },
+  "business": {
+    "name": "Studio Aurea",
+    "type": "Body-Contouring-Studio",
+    "address": "Beispielstraße 12, 12345 Musterstadt",
+    "transit": "U9 oder Bus 100 bis Haltestelle Beispielplatz",
+    "contact": "Alles läuft über WhatsApp, eine telefonische Beratung gibt es nicht."
+  },
+  "offer": {
+    "price_eur": 59,
+    "second_zone_included": true,
+    "once_per_customer": true
+  },
+  "zones": [
+    "Bauch",
+    "Beine",
+    "Po",
+    "Arme",
+    "Rücken"
+  ],
+  "hours": {
+    "Montag": "09:00-17:00",
+    "Dienstag": "09:00-17:00",
+    "Mittwoch": "11:00-19:00",
+    "Donnerstag": "11:00-19:00",
+    "Freitag": "09:00-15:00",
+    "Samstag": null,
+    "Sonntag": null
+  },
+  "templates": {
+    "GREETING": "Hallo, hier ist Kira, die digitale Assistentin von Studio Aurea. Welche Körperzone stört dich aktuell am meisten?",
+    "AI_DISCLOSURE": "Ich bin Kira, die digitale Assistentin von Studio Aurea, also eine KI. Wenn du lieber mit einer Person sprichst, sag es mir und ich leite dich weiter.",
+    "OPTOUT": "Alles klar, ich schreibe dir nicht mehr. Du kannst dich jederzeit wieder melden.",
+    "PRICE": "Bei der Einführungsaktion zahlst du eine Zone mit 59 Euro und die zweite Zone ist einmalig gratis dabei.",
+    "ADDRESS": "Du findest uns in der Beispielstraße 12, 12345 Musterstadt.",
+    "HOURS": "Montag und Dienstag 9 bis 17 Uhr, Mittwoch und Donnerstag 11 bis 19 Uhr, Freitag 9 bis 15 Uhr. Am Wochenende ist geschlossen.",
+    "TRANSIT": "Mit der U9 oder dem Bus 100 bis Haltestelle Beispielplatz, von dort sind es zwei Minuten zu Fuß.",
+    "ASK_ZONE_2": "Notiert, {zone_1}. Welche zweite Zone soll ich dir eintragen, {options}?",
+    "ASK_TIME": "Perfekt, {zone_1} und {zone_2}. Passt dir eher vormittags oder nachmittags?",
+    "OBJECTION": [
+      "Verstehe ich. Du zahlst nur eine Zone, die zweite ist einmalig gratis dabei.",
+      "Die Aktion gilt nur in der Einführungsphase. Welche zwei Zonen interessieren dich?",
+      "Alles gut, kein Druck. Wenn du später Lust hast, schreib mir einfach wieder."
+    ],
+    "REJECTION_CLOSE": "Alles klar, dann passt das Angebot gerade wohl nicht. Melde dich gern, wenn du später doch magst.",
+    "HANDOFF": "Dafür verbinde ich dich am besten mit einer Person aus dem Studio. Sie meldet sich bei dir.",
+    "OTHER_REDIRECT": "Dazu kann ich dir hier leider nichts sagen. Soll ich dir mit den Zonen weiterhelfen?",
+    "ASK_ZONE_1": "Welche Körperzone stört dich aktuell am meisten?",
+    "ZONES_LIST": "Du kannst aus diesen Zonen wählen: {options}.",
+    "OFFER_SLOTS": "Ich hätte {slot_list}. Was passt dir am besten?",
+    "BOOKED": "Perfekt, ich habe den Termin {slot} für dich vorgemerkt. Eine Person aus dem Studio bestätigt den Termin.",
+    "BOOKED_REMINDER": "Dein Terminwunsch ist notiert, eine Person aus dem Studio bestätigt ihn."
+  }
+}
