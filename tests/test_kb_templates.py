@@ -1,4 +1,5 @@
 """Every verbatim template in the KB must satisfy the style rules."""
+
 from app.domain.validators import validate_style
 from app.domain.zones import CANONICAL_ZONES
 from app.infrastructure.kb import load_kb

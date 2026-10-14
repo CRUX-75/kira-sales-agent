@@ -1,4 +1,3 @@
-from dataclasses import replace
 from datetime import datetime
 
 import pytest
@@ -64,14 +63,18 @@ def test_zones_and_time_in_one_message_go_straight_to_slots():
 
 
 def test_offer_contains_every_offered_slot():
-    plan = plan_turn(Session(state=State.ZONE_2, zone_1="Beine", zone_2="Po"), "nachmittags", KB, NOW)
+    plan = plan_turn(
+        Session(state=State.ZONE_2, zone_1="Beine", zone_2="Po"), "nachmittags", KB, NOW
+    )
     message = plan.messages[0]
     assert message.required == tuple(s.label for s in plan.session.offered_slots)
     assert missing_facts(message.text, message.required) == ()
 
 
 def test_booking_uses_the_offered_slot():
-    offered = plan_turn(Session(state=State.ZONE_2, zone_1="Beine", zone_2="Po"), "nachmittags", KB, NOW)
+    offered = plan_turn(
+        Session(state=State.ZONE_2, zone_1="Beine", zone_2="Po"), "nachmittags", KB, NOW
+    )
     booked = plan_turn(offered.session, "die zweite", KB, NOW)
     assert booked.session.state is State.BOOKED
     chosen = offered.session.offered_slots[1].label
@@ -91,13 +94,17 @@ def test_choice_outside_offered_slots_reoffers():
 
 def test_no_availability_hands_off():
     closed_kb = {**KB, "hours": {day: None for day in KB["hours"]}}
-    plan = plan_turn(Session(state=State.ZONE_2, zone_1="Beine", zone_2="Po"), "nachmittags", closed_kb, NOW)
+    plan = plan_turn(
+        Session(state=State.ZONE_2, zone_1="Beine", zone_2="Po"), "nachmittags", closed_kb, NOW
+    )
     assert plan.session.state is State.HANDOFF
     assert intents(plan) == ["HANDOFF"]
 
 
 def test_opt_out_and_medical_handoff():
-    assert intents(plan_turn(Session(state=State.ZONE_1), "Bitte keine Nachrichten mehr", KB, NOW)) == ["OPTOUT"]
+    assert intents(
+        plan_turn(Session(state=State.ZONE_1), "Bitte keine Nachrichten mehr", KB, NOW)
+    ) == ["OPTOUT"]
     medical = plan_turn(Session(state=State.ZONE_1), "Ich bin schwanger", KB, NOW)
     assert medical.session.state is State.HANDOFF and intents(medical) == ["HANDOFF"]
 
@@ -119,7 +126,9 @@ def test_unknown_message_gets_redirect_without_state_change():
 
 
 def test_topics_still_answered_after_booking():
-    booked = Session(state=State.BOOKED, offered_slots=(Slot(NOW.date(), 14, "heute um 14 Uhr"),), chosen_slot=1)
+    booked = Session(
+        state=State.BOOKED, offered_slots=(Slot(NOW.date(), 14, "heute um 14 Uhr"),), chosen_slot=1
+    )
     plan = plan_turn(booked, "Wo seid ihr?", KB, NOW)
     assert intents(plan) == ["ADDRESS"] and plan.session.state is State.BOOKED
     assert intents(plan_turn(booked, "super danke", KB, NOW)) == ["BOOKED_REMINDER"]
@@ -130,8 +139,21 @@ def test_topics_still_answered_after_booking():
     [
         ["Hallo", "Beine", "Po", "nachmittags", "die zweite"],
         ["Hey", "Was kostet das?", "Bauch", "Wo seid ihr?", "Rücken", "vormittags", "1"],
-        ["Bist du ein Bot?", "Beine und Arme", "das ist mir zu teuer", "Wann habt ihr geöffnet?", "nachmittags"],
-        ["Welche Zonen gibt es?", "Po", "Wie komme ich mit dem Bus zu euch?", "Bauch", "vormittags", "nein danke"],
+        [
+            "Bist du ein Bot?",
+            "Beine und Arme",
+            "das ist mir zu teuer",
+            "Wann habt ihr geöffnet?",
+            "nachmittags",
+        ],
+        [
+            "Welche Zonen gibt es?",
+            "Po",
+            "Wie komme ich mit dem Bus zu euch?",
+            "Bauch",
+            "vormittags",
+            "nein danke",
+        ],
     ],
 )
 def test_every_message_passes_style_and_keeps_facts(script):

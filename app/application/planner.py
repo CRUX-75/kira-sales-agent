@@ -4,6 +4,7 @@ Pure and deterministic. It decides WHAT is said. Each Message carries a determin
 `text` that is always valid; the LLM may only reword messages marked "constrained",
 and must keep every string in `required` (slots, prices...).
 """
+
 from dataclasses import dataclass, replace
 from datetime import datetime
 from typing import Any
@@ -57,7 +58,8 @@ def _pending_message(session: Session, kb: dict[str, Any]) -> Message:
         return _tpl(kb, "ASK_ZONE_1", "constrained")
     if state is State.ZONE_1:
         remaining = [z for z in CANONICAL_ZONES if z != session.zone_1]
-        return _tpl(kb, "ASK_ZONE_2", "constrained", zone_1=session.zone_1, options=_join_or(remaining))
+        options = _join_or(remaining)
+        return _tpl(kb, "ASK_ZONE_2", "constrained", zone_1=session.zone_1, options=options)
     if state is State.ZONE_2:
         return _tpl(kb, "ASK_TIME", "constrained", zone_1=session.zone_1, zone_2=session.zone_2)
     labels = tuple(slot.label for slot in session.offered_slots)

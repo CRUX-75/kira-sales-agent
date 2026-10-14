@@ -1,4 +1,5 @@
 """Conversation states. States are never inferred by the LLM."""
+
 from enum import StrEnum
 
 

@@ -1,4 +1,5 @@
 """Knowledge-base loader (single source of truth: data/kb/studio_aurea.json)."""
+
 import json
 from pathlib import Path
 from typing import Any
