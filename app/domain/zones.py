@@ -1,4 +1,5 @@
 """Deterministic zone detection: closed whitelist plus aliases."""
+
 import re
 
 CANONICAL_ZONES = ("Bauch", "Beine", "Po", "Arme", "Rücken")

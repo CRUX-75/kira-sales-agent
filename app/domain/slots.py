@@ -4,9 +4,10 @@ Rules: max 3 slots, spread over different days, inside opening hours, matching t
 morning / afternoon preference, at least LEAD_HOURS from now, weekday + time, no year.
 Opening hours are read as full hours ("09:00-17:00" -> 9 to 17).
 """
+
+from collections.abc import Mapping
 from dataclasses import dataclass
 from datetime import date, datetime, time, timedelta
-from typing import Mapping
 
 WEEKDAYS_DE = ("Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag")
 MAX_SLOTS = 3

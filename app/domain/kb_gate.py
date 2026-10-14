@@ -1,4 +1,5 @@
 """KB Gate: deterministic topic detection. Lower priority number wins."""
+
 import re
 from dataclasses import dataclass
 
@@ -31,7 +32,11 @@ TOPICS = (
     Topic("ZONES", 2, re.compile(r"welche (körper)?(zonen|bereiche)|zonen (gibt|habt|hast)")),
     Topic("ADDRESS", 3, re.compile(r"adresse|wo seid ihr|wo befindet|wo ist das|standort")),
     Topic("HOURS", 4, re.compile(r"öffnungszeiten|geöffnet|wann .*offen")),
-    Topic("TRANSIT", 5, re.compile(r"öpnv|u-?bahn|\btram\b|\bbus\b|anfahrt|wie komme ich|öffentlich")),
+    Topic(
+        "TRANSIT",
+        5,
+        re.compile(r"öpnv|u-?bahn|\btram\b|\bbus\b|anfahrt|wie komme ich|öffentlich"),
+    ),
     Topic("BOOKING", 6, re.compile(r"termin (machen|buchen|vereinbaren)|einen termin|\bbuchen\b")),
     Topic("OBJECTION", 7, OBJECTION_RE),
     Topic(

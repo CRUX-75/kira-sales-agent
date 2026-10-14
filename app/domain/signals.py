@@ -1,4 +1,5 @@
 """Deterministic signal extraction from a user message."""
+
 import re
 from dataclasses import dataclass
 

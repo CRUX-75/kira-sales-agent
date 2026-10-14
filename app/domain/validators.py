@@ -1,7 +1,8 @@
 """Style validator. Style is enforced by code, not by the prompt."""
+
 import re
 
-_EMOJI_RE = re.compile("[\U0001F300-\U0001FAFF\u2600-\u27BF\u2B50\uFE0F]")
+_EMOJI_RE = re.compile("[\U0001f300-\U0001faff\u2600-\u27bf\u2b50\ufe0f]")
 
 
 def validate_style(text: str, *, max_chars: int = 160, max_sentences: int = 2) -> tuple[str, ...]:

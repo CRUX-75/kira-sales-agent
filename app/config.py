@@ -1,4 +1,5 @@
 """Environment-based settings. Production values belong in the deployment environment."""
+
 from functools import lru_cache
 
 from pydantic_settings import BaseSettings, SettingsConfigDict

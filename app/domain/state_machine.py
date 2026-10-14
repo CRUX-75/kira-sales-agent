@@ -1,4 +1,5 @@
 """Pure state machine. No I/O, no LLM. Priority: opt-out > handoff > rejection > flow."""
+
 from dataclasses import dataclass, replace
 
 from .signals import Signals
@@ -61,9 +62,7 @@ def _advance(session: Session, signals: Signals) -> Session:
         return session
     if state is State.ZONE_2:
         if signals.time_preference:
-            return replace(
-                session, state=State.SLOT_OFFER, time_preference=signals.time_preference
-            )
+            return replace(session, state=State.SLOT_OFFER, time_preference=signals.time_preference)
         return session
     if state is State.SLOT_OFFER:
         if signals.slot_choice is not None:

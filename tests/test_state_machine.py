@@ -87,9 +87,15 @@ def test_full_conversation():
 def test_zones_and_time_window_in_one_message_chain_to_slot_offer():
     s = transition(Session(), Signals(zones=("Beine", "Po"), time_preference="nachmittags"))
     assert (s.state, s.zone_1, s.zone_2, s.time_preference) == (
-        State.SLOT_OFFER, "Beine", "Po", "nachmittags")
+        State.SLOT_OFFER,
+        "Beine",
+        "Po",
+        "nachmittags",
+    )
 
 
 def test_chain_never_books_in_the_same_turn():
-    s = transition(Session(), Signals(zones=("Beine", "Po"), time_preference="nachmittags", slot_choice=1))
+    s = transition(
+        Session(), Signals(zones=("Beine", "Po"), time_preference="nachmittags", slot_choice=1)
+    )
     assert s.state is State.SLOT_OFFER
