@@ -26,7 +26,8 @@ See `AI_CONTEXT.md` for the architecture and the roadmap.
 python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements-dev.txt
-pytest -q
+ruff check . && ruff format --check .
+pytest -q   # enforces coverage >= 90 %
 uvicorn app.main:app --reload
 curl http://127.0.0.1:8000/health
 ```
