@@ -176,7 +176,8 @@ Important: no `src/` folder; this repository uses `app/`.
 
 Done: skeleton, fictional KB, `domain/` (states, zones, signals, state machine with chained
 advance, KB gate, slot generator, style validator) and `application/planner.py`
-(session + user text -> new session + messages), all covered by pytest.
+(session + user text -> new session + messages) and `application/wording.py` (LLM wording
+port with validation, retries and template fallback), all covered by pytest.
 
 The planner is pure: each `Message` has a deterministic `text` that is always valid, a
 `wording` mode (`verbatim` | `constrained`) and `required` facts (slots) that any LLM
@@ -184,8 +185,10 @@ rewording must preserve (`validators.missing_facts`).
 
 ## Next step
 
-1. LLM wording port: reword `constrained` messages, validate (`validate_style` +
-   `missing_facts`), retry x2, then fall back to `Message.text`.
+Plan and acceptance criteria live in `docs/changes/`.
+
+1. LLM wording, part 2: prompt builder and provider adapter behind `WordingClient`
+   (the port itself, validation, retries and fallback are done: `application/wording.py`).
 2. Session persistence (PostgreSQL) and persistence of `deferred` topics.
 3. WhatsApp webhook: parser, message-id deduplication, safe test endpoint (no real sending).
 4. Conversation log and metrics (fallback rate, handoff rate, bookings requested).
