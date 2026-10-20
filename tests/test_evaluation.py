@@ -70,3 +70,20 @@ def test_empty_result_rates_are_zero():
     result = run_candidate("none", EchoClient(), [])
     assert (result.first_try_rate, result.llm_rate, result.fallback_rate) == (0.0, 0.0, 0.0)
     assert result.mean_attempts == 0.0 and result.cost_per_1000_messages((1, 1)) == 0.0
+
+
+class VariedClient:
+    """Rewords some messages (valid), leaves others untouched."""
+
+    def reword(self, request):
+        return request.base_text.replace("Welche", "Und welche").replace(
+            "Ich hätte", "Ich könnte dir anbieten"
+        )
+
+
+def test_unchanged_rate_detects_models_that_only_copy_the_template():
+    copy = run_candidate("copy", EchoClient(), SCENARIOS)
+    assert copy.unchanged_rate == 1.0
+    varied = run_candidate("varied", VariedClient(), SCENARIOS)
+    assert varied.llm_rate == 1.0
+    assert 0.0 < varied.unchanged_rate < 1.0

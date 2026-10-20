@@ -95,6 +95,7 @@ class CandidateResult:
     messages: int = 0
     first_try_valid: int = 0
     llm_used: int = 0
+    unchanged: int = 0  # LLM output identical to the template: valid but no variety
     fallbacks: int = 0
     attempts: int = 0
     latencies: list[float] = field(default_factory=list)
@@ -111,6 +112,10 @@ class CandidateResult:
     @property
     def llm_rate(self) -> float:
         return self.llm_used / self.messages if self.messages else 0.0
+
+    @property
+    def unchanged_rate(self) -> float:
+        return self.unchanged / self.llm_used if self.llm_used else 0.0
 
     @property
     def fallback_rate(self) -> float:
@@ -141,6 +146,8 @@ def run_candidate(
         result.outputs[scenario.id] = rendered.text
         if rendered.source == "llm":
             result.llm_used += 1
+            if rendered.text.strip().lower() == scenario.message.text.strip().lower():
+                result.unchanged += 1
             if rendered.attempts == 1:
                 result.first_try_valid += 1
         else:

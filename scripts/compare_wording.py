@@ -60,9 +60,9 @@ def build_client(spec: str):
 
 def format_table(results: list[CandidateResult]) -> str:
     header = (
-        "| Candidate | Messages | First-try valid | LLM used | Fallback | Avg attempts "
-        "| p50 s | p95 s | Tokens in/out | USD per 1,000 messages |\n"
-        "|---|---|---|---|---|---|---|---|---|---|\n"
+        "| Candidate | Messages | First-try valid | LLM used | Unchanged | Fallback "
+        "| Avg attempts | p50 s | p95 s | Tokens in/out | USD per 1,000 messages |\n"
+        "|---|---|---|---|---|---|---|---|---|---|---|\n"
     )
     rows = []
     for r in results:
@@ -70,7 +70,7 @@ def format_table(results: list[CandidateResult]) -> str:
         cost = f"{r.cost_per_1000_messages(PRICES[model]):.4f}" if model in PRICES else "n/a"
         rows.append(
             f"| {r.name} | {r.messages} | {r.first_try_rate:.0%} | {r.llm_rate:.0%} "
-            f"| {r.fallback_rate:.0%} | {r.mean_attempts:.2f} "
+            f"| {r.unchanged_rate:.0%} | {r.fallback_rate:.0%} | {r.mean_attempts:.2f} "
             f"| {percentile(r.latencies, 0.5):.2f} | {percentile(r.latencies, 0.95):.2f} "
             f"| {r.input_tokens}/{r.output_tokens} | {cost} |"
         )
@@ -101,7 +101,12 @@ def write_blind_review(results, scenarios, out_dir: Path, stamp: str, seed: int)
         rng.shuffle(order)
         labels = {chr(65 + i): r for i, r in enumerate(order)}
         key[scenario.id] = {label: r.name for label, r in labels.items()}
-        lines += [f"## {scenario.id}", f"Customer: {scenario.user_text}", ""]
+        lines += [
+            f"## {scenario.id}",
+            f"Customer: {scenario.user_text}",
+            f"Template (baseline): {scenario.message.text}",
+            "",
+        ]
         lines += [f"- **{label}**: {r.outputs[scenario.id]}" for label, r in labels.items()]
         lines.append("")
     (out_dir / f"{stamp}-blind-review.md").write_text("\n".join(lines), encoding="utf-8")
