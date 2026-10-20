@@ -11,6 +11,11 @@ class Settings(BaseSettings):
     app_env: str = "development"
     app_name: str = "kira-sales-agent"
     openai_api_key: str | None = None
+    anthropic_api_key: str | None = None
+    wording_provider: str = "none"  # none | openai | anthropic
+    wording_model: str = ""  # empty = provider default
+    wording_effort: str = "low"
+    wording_timeout_seconds: float = 8.0
     database_url: str | None = None
     whatsapp_sending_enabled: bool = False  # emergency stop: default is OFF
 
