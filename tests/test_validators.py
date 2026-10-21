@@ -1,4 +1,9 @@
-from app.domain.validators import missing_facts, validate_style
+from app.domain.validators import (
+    human_claims,
+    introduced_numbers,
+    missing_facts,
+    validate_style,
+)
 
 
 def test_valid_text():
@@ -16,3 +21,15 @@ def test_violations():
 def test_missing_facts():
     assert missing_facts("Ich hätte heute um 14 Uhr.", ("heute um 14 Uhr",)) == ()
     assert missing_facts("Ich hätte morgen.", ("heute um 14 Uhr",)) == ("heute um 14 Uhr",)
+
+
+def test_introduced_numbers():
+    assert introduced_numbers("Um 12 Uhr oder 17 Uhr", "heute um 12 Uhr") == ("17",)
+    assert introduced_numbers("Um 12 Uhr", "heute um 12 Uhr") == ()
+
+
+def test_human_claims():
+    assert human_claims("Ich bin ein Mensch")
+    assert human_claims("Ich bin keine KI")
+    assert human_claims("Ich bin kein Bot")
+    assert not human_claims("Ich bin Kira, die digitale Assistentin")
