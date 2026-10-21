@@ -12,7 +12,7 @@ from typing import Any
 from app.domain.kb_gate import GateResult, match_topic
 from app.domain.signals import Signals, extract_signals
 from app.domain.slots import generate_slots
-from app.domain.state_machine import Session, transition
+from app.domain.state_machine import Session, ZoneAmbiguity, ambiguous_zones, transition
 from app.domain.states import TERMINAL_STATES, State
 from app.domain.zones import CANONICAL_ZONES
 
@@ -95,10 +95,25 @@ def _terminal_messages(
     return (_tpl(kb, "BOOKED", "constrained", required=(slot,), slot=slot),)
 
 
+def _clarification(ambiguity: ZoneAmbiguity, session: Session, kb: dict[str, Any]) -> Message:
+    options = _join_or(ambiguity.zones)
+    if ambiguity.kind == "pair":
+        return _tpl(kb, "CLARIFY_PAIR", "constrained", ambiguity.zones, options=options)
+    required = (session.zone_1, *ambiguity.zones)
+    return _tpl(
+        kb, "CLARIFY_SECOND", "constrained", required, zone_1=session.zone_1, options=options
+    )
+
+
 def _flow_messages(
-    before: Session, after: Session, gate: GateResult, kb: dict[str, Any], reoffer: bool
+    before: Session,
+    after: Session,
+    gate: GateResult,
+    kb: dict[str, Any],
+    reoffer: bool,
+    ambiguity: ZoneAmbiguity | None = None,
 ) -> tuple[Message, ...]:
-    progressed = after != before or reoffer
+    progressed = after != before or reoffer or ambiguity is not None
     topic = gate.topic if gate.kb_hit else None
     if topic == "AI_DISCLOSURE":  # honest answer, no pushing back into the funnel
         return (_tpl(kb, "AI_DISCLOSURE", "verbatim"),)
@@ -114,7 +129,9 @@ def _flow_messages(
         messages.append(Message("OBJECTION", kb["templates"]["OBJECTION"][index], "constrained"))
     elif topic is None and not progressed:
         return (_tpl(kb, "OTHER_REDIRECT", "constrained"),)
-    messages.append(_pending_message(after, kb))
+    messages.append(
+        _clarification(ambiguity, after, kb) if ambiguity else _pending_message(after, kb)
+    )
     return tuple(messages)
 
 
@@ -138,5 +155,6 @@ def plan_turn(session: Session, text: str, kb: dict[str, Any], now: datetime) ->
     if new.state in TERMINAL_STATES:
         messages = _terminal_messages(session, new, signals, gate, kb)
     else:
-        messages = _flow_messages(session, new, gate, kb, reoffer)
+        ambiguity = ambiguous_zones(session, signals) if new.state is session.state else None
+        messages = _flow_messages(session, new, gate, kb, reoffer, ambiguity)
     return TurnPlan(session=new, messages=messages, topic=gate.topic, deferred=gate.deferred)

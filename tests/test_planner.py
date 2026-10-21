@@ -154,6 +154,8 @@ def test_topics_still_answered_after_booking():
             "vormittags",
             "nein danke",
         ],
+        ["Beine", "Po und Bauch", "Po", "nachmittags", "die erste"],
+        ["Bauch, Po und Arme", "Po und Arme", "vormittags", "2"],
     ],
 )
 def test_every_message_passes_style_and_keeps_facts(script):
@@ -172,3 +174,42 @@ def test_zones_are_required_facts_so_an_llm_cannot_change_them():
     second = plan_turn(first.session, "Po", KB, NOW)
     assert second.messages[0].intent == "ASK_TIME"
     assert second.messages[0].required == ("Beine", "Po")
+
+
+def test_regression_two_new_zones_are_not_silently_dropped():
+    # Real case from the blind review: Beine was registered, the customer wrote "Po und Bauch".
+    session = Session(state=State.ZONE_1, zone_1="Beine")
+    plan = plan_turn(session, "Po und Bauch", KB, NOW)
+    assert plan.session.state is State.ZONE_1 and plan.session.zone_2 is None
+    assert intents(plan) == ["CLARIFY_SECOND"]
+    message = plan.messages[0]
+    assert message.required == ("Beine", "Po", "Bauch")
+    assert all(zone in message.text for zone in ("Beine", "Po", "Bauch"))
+
+
+def test_three_zones_at_the_start_ask_which_two():
+    plan = plan_turn(Session(), "Bauch, Po und Arme", KB, NOW)
+    assert plan.session.state is State.INIT and plan.session.zone_1 is None
+    assert intents(plan) == ["CLARIFY_PAIR"]
+    assert plan.messages[0].required == ("Bauch", "Po", "Arme")
+
+
+def test_the_answer_to_the_question_resolves_the_ambiguity():
+    session = Session(state=State.ZONE_1, zone_1="Beine")
+    asked = plan_turn(session, "Po und Bauch", KB, NOW)
+    answered = plan_turn(asked.session, "Po", KB, NOW)
+    assert answered.session.state is State.ZONE_2 and answered.session.zone_2 == "Po"
+    assert intents(answered) == ["ASK_TIME"]
+
+
+def test_topic_answer_comes_before_the_clarification():
+    plan = plan_turn(Session(), "Was kostet das? Bauch, Po, Arme", KB, NOW)
+    assert intents(plan) == ["PRICE", "CLARIFY_PAIR"]
+
+
+def test_ambiguity_never_overrides_opt_out_or_handoff():
+    session = Session(state=State.ZONE_1, zone_1="Beine")
+    stop = plan_turn(session, "Po und Bauch, bitte keine Nachrichten mehr", KB, NOW)
+    assert stop.session.state is State.OPTOUT and intents(stop) == ["OPTOUT"]
+    sick = plan_turn(session, "Po und Bauch, ich bin schwanger", KB, NOW)
+    assert sick.session.state is State.HANDOFF and intents(sick) == ["HANDOFF"]
