@@ -1,7 +1,7 @@
 import pytest
 
 from app.domain.signals import Signals, extract_signals
-from app.domain.state_machine import MAX_OBJECTIONS, Session, transition
+from app.domain.state_machine import MAX_OBJECTIONS, Session, ambiguous_zones, transition
 from app.domain.states import State
 
 
@@ -99,3 +99,30 @@ def test_chain_never_books_in_the_same_turn():
         Session(), Signals(zones=("Beine", "Po"), time_preference="nachmittags", slot_choice=1)
     )
     assert s.state is State.SLOT_OFFER
+
+
+def test_three_zones_at_the_start_are_ambiguous_and_nothing_is_captured():
+    signals = Signals(zones=("Bauch", "Po", "Arme"))
+    out = transition(Session(), signals)
+    assert (out.state, out.zone_1, out.zone_2) == (State.INIT, None, None)
+    ambiguity = ambiguous_zones(Session(), signals)
+    assert (ambiguity.kind, ambiguity.zones) == ("pair", ("Bauch", "Po", "Arme"))
+
+
+def test_two_new_zones_with_one_already_taken_are_ambiguous():
+    session = Session(state=State.ZONE_1, zone_1="Beine")
+    signals = Signals(zones=("Po", "Bauch"))
+    out = transition(session, signals)
+    assert (out.state, out.zone_2) == (State.ZONE_1, None)
+    ambiguity = ambiguous_zones(session, signals)
+    assert (ambiguity.kind, ambiguity.zones) == ("second", ("Po", "Bauch"))
+
+
+def test_no_ambiguity_in_normal_cases():
+    assert ambiguous_zones(Session(), Signals(zones=("Beine", "Po"))) is None
+    assert ambiguous_zones(Session(), Signals()) is None
+    zone_1 = Session(state=State.ZONE_1, zone_1="Beine")
+    assert ambiguous_zones(zone_1, Signals(zones=("Beine", "Po"))) is None  # one new zone
+    assert (
+        ambiguous_zones(Session(state=State.ZONE_2), Signals(zones=("Po", "Bauch", "Arme"))) is None
+    )

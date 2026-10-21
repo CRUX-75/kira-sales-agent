@@ -48,6 +48,8 @@ def transition(session: Session, signals: Signals) -> Session:
 def _advance(session: Session, signals: Signals) -> Session:
     state = session.state
     if state is State.INIT:
+        if len(signals.zones) >= 3:  # more than the offer includes: ambiguous, ask first
+            return session
         if len(signals.zones) >= 2:
             return replace(
                 session, state=State.ZONE_2, zone_1=signals.zones[0], zone_2=signals.zones[1]
@@ -57,7 +59,7 @@ def _advance(session: Session, signals: Signals) -> Session:
         return session
     if state is State.ZONE_1:
         new = [z for z in signals.zones if z != session.zone_1]
-        if new:
+        if len(new) == 1:  # several new zones are ambiguous: ask first
             return replace(session, state=State.ZONE_2, zone_2=new[0])
         return session
     if state is State.ZONE_2:
@@ -71,3 +73,20 @@ def _advance(session: Session, signals: Signals) -> Session:
             return replace(session, time_preference=signals.time_preference)
         return session
     return session
+
+
+@dataclass(frozen=True)
+class ZoneAmbiguity:
+    kind: str  # "second": one zone is taken and several candidates were named; "pair": 3+ named
+    zones: tuple[str, ...]
+
+
+def ambiguous_zones(session: Session, signals: Signals) -> ZoneAmbiguity | None:
+    """Zones the customer named that do not fit the offer (two zones): ask, never guess."""
+    if session.state is State.INIT and len(signals.zones) >= 3:
+        return ZoneAmbiguity("pair", signals.zones)
+    if session.state is State.ZONE_1:
+        new = tuple(z for z in signals.zones if z != session.zone_1)
+        if len(new) >= 2:
+            return ZoneAmbiguity("second", new)
+    return None
