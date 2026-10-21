@@ -164,3 +164,11 @@ def test_every_message_passes_style_and_keeps_facts(script):
         for message in plan.messages:
             assert validate_style(message.text) == (), (text, message)
             assert missing_facts(message.text, message.required) == ()
+
+
+def test_zones_are_required_facts_so_an_llm_cannot_change_them():
+    first = plan_turn(Session(), "Beine", KB, NOW)
+    assert first.messages[0].required == ("Beine", "Bauch", "Po", "Arme", "Rücken")
+    second = plan_turn(first.session, "Po", KB, NOW)
+    assert second.messages[0].intent == "ASK_TIME"
+    assert second.messages[0].required == ("Beine", "Po")

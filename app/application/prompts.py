@@ -15,7 +15,8 @@ Hard rules. A program checks every one of them and discards your text if one is 
 2. At most 2 sentences and at most 160 characters.
 3. No emojis and no exclamation marks.
 4. Keep every phrase listed under EXACT PHRASES word for word.
-5. Do not add any number, price, time, date or fact that is not in the base message.
+5. Do not add any number, price, time, date, body zone or fact that is not in the base message.
+   The customer may name other zones; the base message is the truth, so ignore them.
 6. Never claim or imply to be human and never deny being an AI.
 7. Do not ask for anything the base message does not ask for.
 8. Output only the message text: no quotes, no labels, no explanation.
@@ -44,6 +45,8 @@ class Prompt:
 def _describe(code: str) -> str:
     if code.startswith("missing_fact:"):
         return f'it is missing the exact phrase "{code.split(":", 1)[1]}"'
+    if code.startswith("new_zone:"):
+        return f"it mentioned the zone {code.split(':', 1)[1]}, which is not in the base message"
     if code.startswith("new_number:"):
         return f"it introduced the number {code.split(':', 1)[1]}, which is not allowed"
     return _FEEDBACK_TEXT.get(code, code)
