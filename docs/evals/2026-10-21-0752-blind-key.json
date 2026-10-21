@@ -1,0 +1,114 @@
+{
+  "s0t1:ASK_ZONE_2": {
+    "A": "anthropic:claude-haiku-5-5:low",
+    "B": "openai:gpt-6-luna:none"
+  },
+  "s0t2:ASK_TIME": {
+    "A": "anthropic:claude-haiku-5-5:low",
+    "B": "openai:gpt-6-luna:none"
+  },
+  "s0t3:OFFER_SLOTS": {
+    "A": "openai:gpt-6-luna:none",
+    "B": "anthropic:claude-haiku-5-5:low"
+  },
+  "s0t4:BOOKED": {
+    "A": "anthropic:claude-haiku-5-5:low",
+    "B": "openai:gpt-6-luna:none"
+  },
+  "s1t0:ASK_ZONE_1": {
+    "A": "anthropic:claude-haiku-5-5:low",
+    "B": "openai:gpt-6-luna:none"
+  },
+  "s1t1:ASK_ZONE_2": {
+    "A": "anthropic:claude-haiku-5-5:low",
+    "B": "openai:gpt-6-luna:none"
+  },
+  "s1t2:ASK_TIME": {
+    "A": "anthropic:claude-haiku-5-5:low",
+    "B": "openai:gpt-6-luna:none"
+  },
+  "s1t3:OFFER_SLOTS": {
+    "A": "anthropic:claude-haiku-5-5:low",
+    "B": "openai:gpt-6-luna:none"
+  },
+  "s1t4:BOOKED": {
+    "A": "openai:gpt-6-luna:none",
+    "B": "anthropic:claude-haiku-5-5:low"
+  },
+  "s2t1:ASK_ZONE_2": {
+    "A": "anthropic:claude-haiku-5-5:low",
+    "B": "openai:gpt-6-luna:none"
+  },
+  "s2t2:ASK_TIME": {
+    "A": "anthropic:claude-haiku-5-5:low",
+    "B": "openai:gpt-6-luna:none"
+  },
+  "s2t3:OFFER_SLOTS": {
+    "A": "anthropic:claude-haiku-5-5:low",
+    "B": "openai:gpt-6-luna:none"
+  },
+  "s2t4:BOOKED": {
+    "A": "anthropic:claude-haiku-5-5:low",
+    "B": "openai:gpt-6-luna:none"
+  },
+  "s3t1:ASK_ZONE_2": {
+    "A": "anthropic:claude-haiku-5-5:low",
+    "B": "openai:gpt-6-luna:none"
+  },
+  "s3t2:ASK_TIME": {
+    "A": "anthropic:claude-haiku-5-5:low",
+    "B": "openai:gpt-6-luna:none"
+  },
+  "s3t3:OFFER_SLOTS": {
+    "A": "anthropic:claude-haiku-5-5:low",
+    "B": "openai:gpt-6-luna:none"
+  },
+  "s4t0:OTHER_REDIRECT": {
+    "A": "openai:gpt-6-luna:none",
+    "B": "anthropic:claude-haiku-5-5:low"
+  },
+  "s4t1:ASK_ZONE_2": {
+    "A": "anthropic:claude-haiku-5-5:low",
+    "B": "openai:gpt-6-luna:none"
+  },
+  "s4t2:OTHER_REDIRECT": {
+    "A": "openai:gpt-6-luna:none",
+    "B": "anthropic:claude-haiku-5-5:low"
+  },
+  "s4t3:ASK_TIME": {
+    "A": "openai:gpt-6-luna:none",
+    "B": "anthropic:claude-haiku-5-5:low"
+  },
+  "s5t0:OBJECTION": {
+    "A": "anthropic:claude-haiku-5-5:low",
+    "B": "openai:gpt-6-luna:none"
+  },
+  "s5t0:ASK_ZONE_1": {
+    "A": "anthropic:claude-haiku-5-5:low",
+    "B": "openai:gpt-6-luna:none"
+  },
+  "s5t1:ASK_ZONE_2": {
+    "A": "openai:gpt-6-luna:none",
+    "B": "anthropic:claude-haiku-5-5:low"
+  },
+  "s5t2:ASK_TIME": {
+    "A": "openai:gpt-6-luna:none",
+    "B": "anthropic:claude-haiku-5-5:low"
+  },
+  "s5t3:OFFER_SLOTS": {
+    "A": "openai:gpt-6-luna:none",
+    "B": "anthropic:claude-haiku-5-5:low"
+  },
+  "s5t4:OTHER_REDIRECT": {
+    "A": "anthropic:claude-haiku-5-5:low",
+    "B": "openai:gpt-6-luna:none"
+  },
+  "s6t0:OTHER_REDIRECT": {
+    "A": "anthropic:claude-haiku-5-5:low",
+    "B": "openai:gpt-6-luna:none"
+  },
+  "s7t0:OTHER_REDIRECT": {
+    "A": "openai:gpt-6-luna:none",
+    "B": "anthropic:claude-haiku-5-5:low"
+  }
+}
