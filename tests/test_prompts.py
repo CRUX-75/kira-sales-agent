@@ -46,13 +46,20 @@ def test_feedback_is_explained_on_retry():
         "Basis",
         (),
         2,
-        feedback=("exclamation", "missing_fact:heute um 12 Uhr", "new_number:17", "mystery"),
+        feedback=(
+            "exclamation",
+            "missing_fact:heute um 12 Uhr",
+            "new_number:17",
+            "new_zone:Bauch",
+            "mystery",
+        ),
     )
     user = build_prompt(request).user
     assert "PREVIOUS ATTEMPT REJECTED" in user
     assert "exclamation mark" in user
     assert 'missing the exact phrase "heute um 12 Uhr"' in user
     assert "introduced the number 17" in user
+    assert "mentioned the zone Bauch" in user
     assert "mystery" in user
 
 

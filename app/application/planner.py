@@ -59,9 +59,15 @@ def _pending_message(session: Session, kb: dict[str, Any]) -> Message:
     if state is State.ZONE_1:
         remaining = [z for z in CANONICAL_ZONES if z != session.zone_1]
         options = _join_or(remaining)
-        return _tpl(kb, "ASK_ZONE_2", "constrained", zone_1=session.zone_1, options=options)
+        required = (session.zone_1, *remaining)
+        return _tpl(
+            kb, "ASK_ZONE_2", "constrained", required, zone_1=session.zone_1, options=options
+        )
     if state is State.ZONE_2:
-        return _tpl(kb, "ASK_TIME", "constrained", zone_1=session.zone_1, zone_2=session.zone_2)
+        required = (session.zone_1, session.zone_2)
+        return _tpl(
+            kb, "ASK_TIME", "constrained", required, zone_1=session.zone_1, zone_2=session.zone_2
+        )
     labels = tuple(slot.label for slot in session.offered_slots)
     return _tpl(kb, "OFFER_SLOTS", "constrained", required=labels, slot_list=_join_or(labels))
 

@@ -129,3 +129,39 @@ def test_user_text_reaches_the_client_on_every_attempt():
     client = ScriptedClient("Hallo!", GOOD)
     render_message(BASE, client, user_text="hey was geht")
     assert [r.user_text for r in client.requests] == ["hey was geht", "hey was geht"]
+
+
+ASK_TIME = Message(
+    "ASK_TIME",
+    "Perfekt, Beine und Po. Passt dir eher vormittags oder nachmittags?",
+    "constrained",
+    required=("Beine", "Po"),
+)
+
+
+def test_regression_model_that_mirrors_the_customer_and_changes_the_zones_is_rejected():
+    # Real case from the blind review: the customer wrote "Po und Bauch" but the session
+    # holds Beine and Po. Two of three models mirrored the customer and confirmed other zones.
+    mirrored = "Perfekt, Po und Bauch. Passt dir eher vormittags oder nachmittags?"
+    violations = check_candidate(mirrored, ASK_TIME.text, ASK_TIME.required)
+    assert "missing_fact:Beine" in violations and "new_zone:Bauch" in violations
+    client = ScriptedClient(mirrored, mirrored, mirrored)
+    result = render_message(ASK_TIME, client, user_text="Po und Bauch")
+    assert (result.source, result.text) == ("template", ASK_TIME.text)
+
+
+def test_dropping_a_zone_is_rejected_and_the_state_zones_are_accepted():
+    assert "missing_fact:Beine" in check_candidate(
+        "Perfekt, dann Po. Passt dir eher vormittags oder nachmittags?",
+        ASK_TIME.text,
+        ASK_TIME.required,
+    )
+    ok = "Super, Beine und Po notiert. Wann passt es dir besser, vormittags oder nachmittags?"
+    assert check_candidate(ok, ASK_TIME.text, ASK_TIME.required) == ()
+
+
+def test_words_that_merely_contain_a_zone_name_are_not_zones():
+    text = "Perfekt, Beine und Po. Eine positive Position bei der Terminwahl: vormittags oder nachmittags?"
+    assert not any(
+        v.startswith("new_zone") for v in check_candidate(text, ASK_TIME.text, ASK_TIME.required)
+    )
