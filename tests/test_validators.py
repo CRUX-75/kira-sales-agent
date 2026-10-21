@@ -1,6 +1,7 @@
 from app.domain.validators import (
     human_claims,
     introduced_numbers,
+    makes_claims,
     missing_facts,
     validate_style,
 )
@@ -33,3 +34,10 @@ def test_human_claims():
     assert human_claims("Ich bin keine KI")
     assert human_claims("Ich bin kein Bot")
     assert not human_claims("Ich bin Kira, die digitale Assistentin")
+
+
+def test_makes_claims():
+    assert makes_claims("Bauch und Po passen zusammen")
+    assert makes_claims("Die Behandlung ist schmerzfrei")
+    assert makes_claims("Sichtbare Ergebnisse schon nach einer Sitzung")
+    assert not makes_claims("Welche zweite Zone soll ich dir eintragen?")

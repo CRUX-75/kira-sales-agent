@@ -71,5 +71,6 @@ def test_system_prompt_states_the_non_negotiable_rules():
         "never claim or imply to be human",
         "word for word",
         "not add any number",
+        "make no claims about the treatment",
     ):
         assert rule in lowered
