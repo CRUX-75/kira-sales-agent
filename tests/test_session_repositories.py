@@ -33,6 +33,11 @@ SESSION = Session(
 )
 
 
+def test_in_ci_the_database_tests_are_never_skipped():
+    if os.environ.get("CI"):
+        assert DSN, "TEST_DATABASE_URL must be set in CI, otherwise PostgreSQL tests are skipped"
+
+
 @pytest.fixture
 def clean_database():
     apply_migrations(DSN)
