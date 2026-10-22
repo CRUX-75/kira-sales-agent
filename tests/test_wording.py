@@ -165,3 +165,16 @@ def test_words_that_merely_contain_a_zone_name_are_not_zones():
     assert not any(
         v.startswith("new_zone") for v in check_candidate(text, ASK_TIME.text, ASK_TIME.required)
     )
+
+
+def test_unverified_treatment_claims_are_rejected():
+    # Real case from the blind review: the model added a remark about the zones.
+    claim = "Klar, Bauch und Po passen zusammen. Kommst du lieber vormittags oder nachmittags?"
+    assert "claim" in check_candidate(claim, BASE.text, BASE.required)
+    fine = "Welche Zone würdest du gern zuerst angehen?"
+    assert "claim" not in check_candidate(fine, BASE.text, BASE.required)
+
+
+def test_a_claim_word_already_in_the_base_message_is_not_flagged():
+    base = "Das Ergebnis deiner Anfrage ist notiert. Welche Zone zuerst?"
+    assert "claim" not in check_candidate(base, base, ())

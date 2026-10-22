@@ -56,6 +56,8 @@
     "ZONES_LIST": "Du kannst aus diesen Zonen wählen: {options}.",
     "OFFER_SLOTS": "Ich hätte {slot_list}. Was passt dir am besten?",
     "BOOKED": "Perfekt, ich habe den Termin {slot} für dich vorgemerkt. Eine Person aus dem Studio bestätigt den Termin.",
-    "BOOKED_REMINDER": "Dein Terminwunsch ist notiert, eine Person aus dem Studio bestätigt ihn."
+    "BOOKED_REMINDER": "Dein Terminwunsch ist notiert, eine Person aus dem Studio bestätigt ihn.",
+    "CLARIFY_SECOND": "Als erste Zone habe ich {zone_1}. Welche soll ich als zweite eintragen, {options}?",
+    "CLARIFY_PAIR": "In der Aktion sind zwei Zonen enthalten. Welche zwei soll ich eintragen: {options}?"
   }
 }

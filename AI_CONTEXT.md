@@ -188,8 +188,8 @@ rewording must preserve (`validators.missing_facts`).
 
 Plans and acceptance criteria live in `docs/changes/`.
 
-1. Run the provider comparison (`docs/changes/003-wording-providers.md`) and record the
-   choice and its evidence in `docs/evals/`.
+1. Provider decided: see `docs/changes/004-wording-provider-decision.md`. Next: wire the
+   configured client into the turn pipeline once the webhook exists.
 2. Session persistence (PostgreSQL) and persistence of `deferred` topics.
 3. WhatsApp webhook: parser, message-id deduplication, safe test endpoint (no real sending).
 4. Conversation log and metrics (fallback rate, handoff rate, bookings requested).

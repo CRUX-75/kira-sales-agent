@@ -10,7 +10,13 @@ from dataclasses import dataclass
 from typing import Protocol
 
 from app.application.planner import Message, TurnPlan
-from app.domain.validators import human_claims, introduced_numbers, missing_facts, validate_style
+from app.domain.validators import (
+    human_claims,
+    introduced_numbers,
+    makes_claims,
+    missing_facts,
+    validate_style,
+)
 from app.domain.zones import detect_zones
 
 DEFAULT_MAX_RETRIES = 2  # first attempt + 2 retries = at most 3 client calls per message
@@ -57,6 +63,8 @@ def check_candidate(candidate: str, base_text: str, required: tuple[str, ...]) -
     violations += [f"new_number:{number}" for number in introduced_numbers(candidate, allowed)]
     allowed_zones = set(detect_zones(allowed))
     violations += [f"new_zone:{z}" for z in detect_zones(candidate) if z not in allowed_zones]
+    if makes_claims(candidate) and not makes_claims(allowed):
+        violations.append("claim")
     if human_claims(candidate):
         violations.append("human_claim")
     return tuple(violations)

@@ -44,3 +44,15 @@ def introduced_numbers(candidate: str, allowed_text: str) -> tuple[str, ...]:
 def human_claims(text: str) -> bool:
     """True if the text claims to be a human or denies being an AI."""
     return bool(_HUMAN_CLAIM_RE.search(text.lower()))
+
+
+_CLAIM_RE = re.compile(
+    r"\b(ergebnis\w*|wirkt|wirkung\w*|wirksam\w*|garantie\w*|garantiert|nebenwirkung\w*"
+    r"|schmerz\w*|effektiv\w*|abnehm\w*|kleidergr\w*|cellulite|straff\w*|heilt|heilung"
+    r"|passen (gut )?zusammen)\b"
+)
+
+
+def makes_claims(text: str) -> bool:
+    """Vocabulary of treatment, result or health claims. A cheap net, not a full detector."""
+    return bool(_CLAIM_RE.search(text.lower()))
