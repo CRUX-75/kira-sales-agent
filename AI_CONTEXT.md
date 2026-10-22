@@ -178,7 +178,8 @@ Done: skeleton, fictional KB, `domain/` (states, zones, signals, state machine w
 advance, KB gate, slot generator, style validator) and `application/planner.py`
 (session + user text -> new session + messages) and `application/wording.py` (LLM wording
 port with validation, retries and template fallback), `application/prompts.py`,
-`application/evaluation.py` and the OpenAI / Anthropic adapters in `infrastructure/`, all covered by pytest.
+`application/evaluation.py`, the OpenAI / Anthropic adapters and the session
+repositories (memory and PostgreSQL) in `infrastructure/`, all covered by pytest.
 
 The planner is pure: each `Message` has a deterministic `text` that is always valid, a
 `wording` mode (`verbatim` | `constrained`) and `required` facts (slots) that any LLM
@@ -186,10 +187,9 @@ rewording must preserve (`validators.missing_facts`).
 
 ## Next step
 
-Plans and acceptance criteria live in `docs/changes/`.
+Plans and acceptance criteria live in `docs/changes/`. Persistence is done (005).
 
-1. Provider decided: see `docs/changes/004-wording-provider-decision.md`. Next: wire the
-   configured client into the turn pipeline once the webhook exists.
-2. Session persistence (PostgreSQL) and persistence of `deferred` topics.
-3. WhatsApp webhook: parser, message-id deduplication, safe test endpoint (no real sending).
-4. Conversation log and metrics (fallback rate, handoff rate, bookings requested).
+1. WhatsApp webhook: payload parser, `message_id` deduplication (new migration),
+   signature verification, HMAC conversation id, per-conversation lock.
+2. Safe test endpoint: planner + configured wording client, no real sending.
+3. Conversation log and metrics (fallback rate, handoff rate, bookings requested).

@@ -27,7 +27,7 @@ python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements-dev.txt
 ruff check . && ruff format --check .
-pytest -q   # enforces coverage >= 90 %
+pytest -q   # enforces coverage >= 90 %; PostgreSQL tests need TEST_DATABASE_URL (see docs/changes/005)
 uvicorn app.main:app --reload
 curl http://127.0.0.1:8000/health
 ```
