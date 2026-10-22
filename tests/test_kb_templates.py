@@ -1,6 +1,6 @@
 """Every verbatim template in the KB must satisfy the style rules."""
 
-from app.domain.validators import validate_style
+from app.domain.validators import makes_claims, validate_style
 from app.domain.zones import CANONICAL_ZONES
 from app.infrastructure.kb import load_kb
 
@@ -41,3 +41,7 @@ def test_ai_disclosure_template_says_it_is_an_ai():
     text = KB["templates"]["AI_DISCLOSURE"].lower()
     assert "ki" in text and "digitale assistentin" in text
     assert "digitale assistentin" in KB["templates"]["GREETING"].lower()
+
+
+def test_no_template_makes_treatment_claims():
+    assert not [name for name, text in _flat_templates() if makes_claims(text)]
