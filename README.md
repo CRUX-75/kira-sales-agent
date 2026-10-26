@@ -1,5 +1,7 @@
 # Kira Sales Agent
 
+[![CI](https://github.com/CRUX-75/kira-sales-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/CRUX-75/kira-sales-agent/actions/workflows/ci.yml)
+
 A rule-governed WhatsApp sales conversation agent, built in Python as a **reference
 implementation** of a deterministic conversational architecture (state machine + knowledge
 base + constrained LLM wording + validators).

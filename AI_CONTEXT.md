@@ -187,7 +187,7 @@ rewording must preserve (`validators.missing_facts`).
 
 ## Next step
 
-Plans and acceptance criteria live in `docs/changes/`. Persistence is done (005).
+Plans and acceptance criteria live in `docs/changes/`. Persistence (005) and CI (006) are done.
 
 1. WhatsApp webhook: payload parser, `message_id` deduplication (new migration),
    signature verification, HMAC conversation id, per-conversation lock.
