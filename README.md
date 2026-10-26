@@ -1,5 +1,7 @@
 # Kira Sales Agent
 
+[![CI](https://github.com/CRUX-75/kira-sales-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/CRUX-75/kira-sales-agent/actions/workflows/ci.yml)
+
 A rule-governed WhatsApp sales conversation agent, built in Python as a **reference
 implementation** of a deterministic conversational architecture (state machine + knowledge
 base + constrained LLM wording + validators).
@@ -19,6 +21,12 @@ Domain core and turn planner: states, zone detection, signals, state machine, KB
 slot generator, style validator, response planner and a fictional KB. LLM wording,
 persistence and the WhatsApp webhook are the next steps.
 See `AI_CONTEXT.md` for the architecture and the roadmap.
+
+## Channels
+
+The core is channel-agnostic. The first real channel is **Telegram** (test channel, no
+review process); the WhatsApp Cloud API is planned as a later adapter. Plan:
+`docs/changes/007-telegram-channel-and-deployment.md`.
 
 ## Quickstart
 
