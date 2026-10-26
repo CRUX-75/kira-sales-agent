@@ -135,6 +135,8 @@ Collision rule: only the highest-priority topic is answered; the other is kept f
 
 ## Scope
 
+**Test channel:** Telegram (no Meta review needed). WhatsApp is a later adapter.
+
 **In scope (MVP):** webhook, deduplication, state machine, KB gate, constrained wording,
 validators, PostgreSQL persistence, safe test endpoint (no real sending), pytest suite.
 
@@ -187,9 +189,11 @@ rewording must preserve (`validators.missing_facts`).
 
 ## Next step
 
-Plans and acceptance criteria live in `docs/changes/`. Persistence (005) and CI (006) are done.
+Plans and acceptance criteria live in `docs/changes/`. Done: LLM wording (002 to 004),
+persistence (005), CI (006). Current plan: `007-telegram-channel-and-deployment.md`.
 
-1. WhatsApp webhook: payload parser, `message_id` deduplication (new migration),
-   signature verification, HMAC conversation id, per-conversation lock.
-2. Safe test endpoint: planner + configured wording client, no real sending.
-3. Conversation log and metrics (fallback rate, handoff rate, bookings requested).
+1. Conversation use case (planner + wording + session repository).
+2. Telegram test channel: parser, secret check, allowlist, deduplication, lock, sender, webhook.
+3. Deployment on Easypanel (Hetzner): hardened Dockerfile and step-by-step guide.
+4. Observability: structured logs and counters without personal data.
+5. WhatsApp Cloud API adapter, later and only if needed.
