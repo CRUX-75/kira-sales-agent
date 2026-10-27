@@ -22,6 +22,12 @@ slot generator, style validator, response planner and a fictional KB. LLM wordin
 persistence and the WhatsApp webhook are the next steps.
 See `AI_CONTEXT.md` for the architecture and the roadmap.
 
+## Channels
+
+The core is channel-agnostic. The first real channel is **Telegram** (test channel, no
+review process); the WhatsApp Cloud API is planned as a later adapter. Plan:
+`docs/changes/007-telegram-channel-and-deployment.md`.
+
 ## Quickstart
 
 ```bash
@@ -30,6 +36,7 @@ source .venv/bin/activate
 pip install -r requirements-dev.txt
 ruff check . && ruff format --check .
 pytest -q   # enforces coverage >= 90 %; PostgreSQL tests need TEST_DATABASE_URL (see docs/changes/005)
+python scripts/chat_cli.py        # talk to Kira in the terminal
 uvicorn app.main:app --reload
 curl http://127.0.0.1:8000/health
 ```
