@@ -19,6 +19,7 @@ def test_all_templates_pass_style():
         rendered = text.format(
             zone_1="Beine",
             zone_2="Po",
+            chat_id=123456789,
             options="Bauch, Po, Arme oder Rücken",
             slot="am Donnerstag um 13 Uhr",
             slot_list="heute um 12 Uhr, am Donnerstag um 13 Uhr oder am Dienstag um 16 Uhr",

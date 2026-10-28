@@ -58,6 +58,9 @@
     "BOOKED": "Perfekt, ich habe den Termin {slot} für dich vorgemerkt. Eine Person aus dem Studio bestätigt den Termin.",
     "BOOKED_REMINDER": "Dein Terminwunsch ist notiert, eine Person aus dem Studio bestätigt ihn.",
     "CLARIFY_SECOND": "Als erste Zone habe ich {zone_1}. Welche soll ich als zweite eintragen, {options}?",
-    "CLARIFY_PAIR": "In der Aktion sind zwei Zonen enthalten. Welche zwei soll ich eintragen: {options}?"
+    "CLARIFY_PAIR": "In der Aktion sind zwei Zonen enthalten. Welche zwei soll ich eintragen: {options}?",
+    "CHANNEL_CHAT_ID": "Deine Chat-ID lautet {chat_id}.",
+    "CHANNEL_NOT_ALLOWED": "Dieser Demo-Bot ist noch nicht öffentlich. Mit /id siehst du deine Chat-ID.",
+    "CHANNEL_UNSUPPORTED": "Ich kann hier nur Textnachrichten lesen. Schreib mir gern kurz, worum es geht."
   }
 }
