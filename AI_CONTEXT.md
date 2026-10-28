@@ -190,10 +190,11 @@ rewording must preserve (`validators.missing_facts`).
 ## Next step
 
 Plans and acceptance criteria live in `docs/changes/`. Done: LLM wording (002 to 004),
-persistence (005), CI (006), conversation use case (008). Current plan: `007-telegram-channel-and-deployment.md`.
+persistence (005), CI (006), conversation use case (008), Telegram channel logic (009). Current plan: `007-telegram-channel-and-deployment.md`.
 
 1. ~~Conversation use case~~ done (008): `ConversationService` and `scripts/chat_cli.py`.
-2. Telegram test channel: parser, secret check, allowlist, deduplication, lock, sender, webhook.
+2. Telegram test channel. Logic done (009: parser, access policy, secret check, anonymous ids).
+   Next: HTTP layer with deduplication, per-conversation lock, sender, webhook route.
 3. Deployment on Easypanel (Hetzner): hardened Dockerfile and step-by-step guide.
 4. Observability: structured logs and counters without personal data.
 5. WhatsApp Cloud API adapter, later and only if needed.

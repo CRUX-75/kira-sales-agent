@@ -18,7 +18,11 @@ class Settings(BaseSettings):
     wording_timeout_seconds: float = 8.0
     database_url: str | None = None
     session_ttl_days: int = 7  # data minimisation: older sessions are purged
-    whatsapp_sending_enabled: bool = False  # emergency stop: default is OFF
+    channel_sending_enabled: bool = False  # emergency stop: default is OFF
+    telegram_bot_token: str | None = None
+    telegram_webhook_secret: str | None = None
+    telegram_allowed_chat_ids: str = ""  # comma separated; empty = nobody (fail closed)
+    conversation_id_secret: str | None = None  # key of the HMAC that anonymises chat ids
 
 
 @lru_cache

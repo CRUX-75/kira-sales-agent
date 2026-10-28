@@ -14,4 +14,4 @@ def test_health():
 def test_ready_reports_sending_disabled_by_default():
     body = client.get("/ready").json()
     assert body["kb_loaded"] is True
-    assert body["whatsapp_sending_enabled"] is False
+    assert body["sending_enabled"] is False

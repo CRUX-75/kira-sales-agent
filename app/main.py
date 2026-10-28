@@ -18,5 +18,5 @@ def ready() -> dict[str, object]:
     return {
         "status": "ok",
         "kb_loaded": bool(kb.get("templates")),
-        "whatsapp_sending_enabled": get_settings().whatsapp_sending_enabled,
+        "sending_enabled": get_settings().channel_sending_enabled,
     }
